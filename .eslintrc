@@ -1,0 +1,15 @@
+{
+  "env": {
+    "browser": 1
+  },
+  "globals": {
+    "Backbone": 1,
+    "google": 1,
+    "_":1,
+    "$":1
+  },
+  "rules": {
+    "strict": 0,
+    "no-unused-vars": 0
+  }
+}

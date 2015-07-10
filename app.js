@@ -15,31 +15,35 @@ var Country = Backbone.Collection.extend({
         return this.code;
     },
     getDivisionLevel: function() {
-        if(this.code == "np") return 3;
-        else return 1;
+        if(this.code === "np") {
+            return 3;
+        }
+        else {
+            return 1;
+        }
     },
     fetchUnits: function() {
         var that = this;
         $.ajax({
             // url: "http://geotag.developmentcheck.org/"+that.getCountryCode()+"/units/"+that.getDivisionLevel(),
             url: "np.units.json",
-            dataType:"json",
+            dataType: "json",
             cache: true,
             success: function(units) {
                 that.units = {};
                 $.each(units, function(k, val) {
-                    var divlevel=val.ad_administrative_level;
-                    var divname=val.ad_administrative_level_name;
-                    that.units[parseInt(divlevel)]=divname;
+                    var divlevel = val.ad_administrative_level;
+                    var divname = val.ad_administrative_level_name;
+                    that.units[parseInt(divlevel)] = divname;
                 });
                 that.count += 1;
-                if(that.count == 2) {
+                if(that.count === 2) {
                     //to make sure that both the fetches are done. Need to fix this.
                     that.trigger("collectionCompleted");
-                }                
+                }
             },
             error: function(request, status, error) {
-                console.log(error)
+                // console.log(error);
             }
         });
     },
@@ -48,24 +52,24 @@ var Country = Backbone.Collection.extend({
         $.ajax({
             // url: "http://geotag.developmentcheck.org/"+that.getCountryCode()+"/divisions/"+that.getDivisionLevel(),
             url: "np.divisions.json",
-            dataType:"json",
+            dataType: "json",
             cache: true,
             success: function(divisions) {
                 that.reset();
                 _.each(divisions, function(d) {
-                    that.add({name: d.name, divisions: d.divisions})
+                    that.add({name: d.name, divisions: d.divisions});
                 });
                 that.count += 1;
-                if(that.count == 2) {
+                if(that.count === 2) {
                     //to make sure that both the fetches are done. Need to fix this.
                     that.trigger("collectionCompleted");
-                }                
+                }
             },
             error: function(request, status, error) {
-                console.log(error)
+                // console.log(error);
             }
         });
-    }, 
+    },
     getDivisions1: function() {
         return this.models;
     },
@@ -89,7 +93,7 @@ var Country = Backbone.Collection.extend({
     },
     getUnit4: function() {
         return this.units[4];
-    },
+    }
 });
 
 var LocationModel = Backbone.Model.extend({
@@ -105,19 +109,19 @@ var LocationModel = Backbone.Model.extend({
     },
     initialize: function() {
         this.on("change:country", function(){
-            this.set("division1","");
-            this.fetchGeoCode(this.get("country"));      
+            this.set("division1", "");
+            this.fetchGeoCode(this.get("country"));
         });
         this.on("change:division1", function(){
-            this.set("division2","");
+            this.set("division2", "");
             this.fetchGeoCode(this.get("division1"));
         });
         this.on("change:division2", function(){
-            this.set("division3","");
+            this.set("division3", "");
             this.fetchGeoCode(this.get("division2"));
         });
         this.on("change:division3", function(){
-            this.set("division4","");
+            this.set("division4", "");
             this.fetchGeoCode(this.get("division3"));
         });
         this.on("change:division4", function(){
@@ -128,11 +132,11 @@ var LocationModel = Backbone.Model.extend({
         if(address) {
             var self = this;
             $.ajax({
-                url: "http://geotag.developmentcheck.org/"+self.get("country")+"/latlong/"+address,
-                dataType:"jsonp",
-                cache:true,
+                url: "http://geotag.developmentcheck.org/" + self.get("country") + "/latlong/" + address,
+                dataType: "jsonp",
+                cache: true,
                 success: function(result) {
-                    if(result.success==1) {
+                    if(result.success === 1) {
                         self.set({lat: result.lat, lng: result.lng, zoom: parseInt(result.zoomlevel)});
                     }
                 }
@@ -154,7 +158,7 @@ var CountryFormView = Backbone.View.extend({
         "change #division-1-select": "division1Selected",
         "change #division-2-select": "division2Selected",
         "change #division-3-select": "division3Selected",
-        "change #division-4-select": "division4Selected",
+        "change #division-4-select": "division4Selected"
     },
     initialize: function(options) {
         this.locationModel = options.locationModel;
@@ -163,9 +167,8 @@ var CountryFormView = Backbone.View.extend({
     },
     countrySelected: function() {
         this.locationModel.set("country", this.$("#country-name option:selected").attr("id"));
-        this.hideAllSelect("#division-1", "#division-2", "#division-3", "#division-4");   
-        this.removeSelectOptions("#division-1", "#division-2", "#division-3", "#division-4");   
-        var self = this;
+        this.hideAllSelect("#division-1", "#division-2", "#division-3", "#division-4");
+        this.removeSelectOptions("#division-1", "#division-2", "#division-3", "#division-4");
         if(this.locationModel.get("country")) {
             this.collection.setCountryCode(this.locationModel.get("country"));
         }
@@ -262,7 +265,9 @@ var MapView = Backbone.View.extend({
         });
     },
     placeMarker: function() {
-        if(this.marker) this.marker.setMap(null);
+        if(this.marker) {
+            this.marker.setMap(null);
+        }
         this.marker = new google.maps.Marker({
             position: this.locationModel.getGoogleMapLatLng(),
             map: this.map
