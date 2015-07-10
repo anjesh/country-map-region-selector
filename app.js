@@ -25,9 +25,8 @@ var Country = Backbone.Collection.extend({
     fetchUnits: function() {
         var that = this;
         $.ajax({
-            // url: "http://geotag.developmentcheck.org/"+that.getCountryCode()+"/units/"+that.getDivisionLevel(),
-            url: "np.units.json",
-            dataType: "json",
+            url: "http://geotag.developmentcheck.org/"+that.getCountryCode()+"/units/"+that.getDivisionLevel(),
+            dataType: "jsonp",
             cache: true,
             success: function(units) {
                 that.units = {};
@@ -50,9 +49,8 @@ var Country = Backbone.Collection.extend({
     fetchDivisions: function() {
         var that = this;
         $.ajax({
-            // url: "http://geotag.developmentcheck.org/"+that.getCountryCode()+"/divisions/"+that.getDivisionLevel(),
-            url: "np.divisions.json",
-            dataType: "json",
+            url: "http://geotag.developmentcheck.org/"+that.getCountryCode()+"/divisions/"+that.getDivisionLevel(),
+            dataType: "jsonp",
             cache: true,
             success: function(divisions) {
                 that.reset();
