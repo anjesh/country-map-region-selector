@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Example 1</title>
+  <script src="lib/jquery-1.11.3.js"></script>
+  <script src="lib/underscore.js"></script>
+  <script src="lib/backbone.js"></script>
+  <script src="http://maps.googleapis.com/maps/api/js"></script>  
+  <script src="app.js"></script>
+</head>
+<body>
+<div id="country-form">
+<select id="country-name">
+    <option id="-1">Select country</option>
+    <option id="np">Nepal</option>
+    <option id="in">India</option>
+</select>
+<select id="division-1" style="display:none"></select>
+<select id="division-2" style="display:none"></select>
+<select id="division-3" style="display:none"></select>
+<select id="division-4" style="display:none"></select>
+</div>
+
+<div style="width:500px;height:500px;border:1px solid #000;" id="map"></div>
+
+<script type="text/javascript">
+  var country = new Country();
+  var locationModel = new LocationModel()
+  var countryFormView = new CountryFormView({
+    collection: country,
+    locationModel: locationModel,
+  });
+  var mapView = new MapView({
+    locationModel: locationModel,
+  })
+
+</script>
+
+</body>
