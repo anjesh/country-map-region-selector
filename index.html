@@ -11,20 +11,23 @@
 </head>
 <body>
 <div id="country-form">
-<select id="country-name">
-    <option id="-1">Select country</option>
-    <option id="np">Nepal</option>
-    <option id="in">India</option>
-</select>
-<select id="division-1" style="display:none"></select>
-<select id="division-2" style="display:none"></select>
-<select id="division-3" style="display:none"></select>
-<select id="division-4" style="display:none"></select>
+<div><label>Country</label>
+  <select id="country-name">
+      <option id="">Select country</option>
+      <option id="np">Nepal</option>
+      <option id="af">Afganisthan</option>
+  </select>
+</div>
+<div id="division-1" style="display:none"><label>1</label><select id="division-1-select"></select></div>
+<div id="division-2" style="display:none"><label>2</label><select id="division-2-select"></select></div>
+<div id="division-3" style="display:none"><label>3</label><select id="division-3-select"></select></div>
+<div id="division-4" style="display:none"><label>4</label><select id="division-4-select"></select></div>
 </div>
 
 <div style="width:500px;height:500px;border:1px solid #000;" id="map"></div>
 
 <script type="text/javascript">
+$(document).ready(function() {
   var country = new Country();
   var locationModel = new LocationModel()
   var countryFormView = new CountryFormView({
@@ -33,7 +36,8 @@
   });
   var mapView = new MapView({
     locationModel: locationModel,
-  })
+  });
+});
 
 </script>
 
